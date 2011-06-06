@@ -80,7 +80,7 @@ Now build the menu
         ->setRequest($request)
         ->setModule($this->getContext()->getModuleName())
         ->setAction($this->getContext()->getActionName())
-        ->addItem($level1Item);
+        ->addItem($parentItem);
 
 And finally, call render within your template
 
@@ -99,7 +99,7 @@ want to be used when rendering.
         ->setRequest($request)
         ->setModule($this->getContext()->getModuleName())
         ->setAction($this->getContext()->getActionName())
-        ->addItem($level1Item)
+        ->addItem($parentItem)
         ->setRenderer('myMenuRenderingClass');
 
 Your rendering class must have a public function called render() and should implement the 
