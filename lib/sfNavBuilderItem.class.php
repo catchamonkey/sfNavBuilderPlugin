@@ -65,7 +65,7 @@ class sfNavBuilderItem
     }
 
     /**
-     * Alternative way to build hierachy
+     * Alternative way to build hierarchy
      */
     public function setParent(sfNavBuilderItem $i)
     {
