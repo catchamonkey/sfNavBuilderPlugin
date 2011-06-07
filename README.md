@@ -8,7 +8,7 @@ It supports active states by module, action and param key value matching.
 
 ###Clone the plugin into your project
 
-    git clone git://github.com/catchamonkey/sfNavBuilderPlugin.git plugins/
+    git clone git://github.com/catchamonkey/sfNavBuilderPlugin.git plugins/sfNavBuilderPlugin
 
 ###Activate the plugin in your config/ProjectConfiguration.class.php
 
