@@ -75,7 +75,7 @@ class sfNavBuilder
     public function addItem(sfNavBuilderItem $item)
     {
         // add this item to the menu
-        $this->_menu[$item->getDisplayName()] = $item;
+        $this->_menu[] = $item;
         // mark the active state of the parent element
         $item->setActive($this->isItemActive($item));
         // mark the active state of any children elements
