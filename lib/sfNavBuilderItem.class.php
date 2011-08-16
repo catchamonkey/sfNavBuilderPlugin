@@ -11,6 +11,7 @@ class sfNavBuilderItem
     private $_activateWhen;
     private $_isActive;
     private $_children;
+    private $_attributes;
 
     public function __construct()
     {
@@ -19,6 +20,7 @@ class sfNavBuilderItem
         $this->_activateWhen    = array();
         $this->_isActive        = FALSE;
         $this->_children        = array();
+        $this->_attributes      = array();
     }
 
     public function setDisplayName($n)
@@ -71,6 +73,33 @@ class sfNavBuilderItem
     {
         $i->addChild($this);
         return $this;
+    }
+
+    /**
+     * Adds an attribute to the item
+     * @param String $name The attribute name
+     * @param String $value The attribute value
+     * @return sfNavBuilderItem $this The current sfNavBuilderItem instance
+     */
+    public function addAttribute($name, $value)
+    {
+        $this->_attributes[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * Returns the attributes of this item as a single string
+     * e.g. name="value" name2="value2"
+     * @return String $ret All defined attributes in name="value" format
+     **/
+    public function getAttributes()
+    {
+        $ret = '';
+        foreach ($this->_attributes as $name => $value)
+        {
+            $ret .= $name . '="'.$value.'"';
+        }
+        return $ret;
     }
 
     public function hasChildren()

@@ -75,7 +75,7 @@ class sfNavBuilder
     public function addItem(sfNavBuilderItem $item)
     {
         // add this item to the menu
-        $this->_menu[] = $item;
+        $this->_menu[$item->getDisplayName()] = $item;
         // mark the active state of the parent element
         $item->setActive($this->isItemActive($item));
         // mark the active state of any children elements
@@ -84,6 +84,16 @@ class sfNavBuilder
             $child->setActive($this->isItemActive($child));
         }
         return $this;
+    }
+
+    /**
+     * Retrieves a menu item by display name
+     * @param String $name The display name of the item you want to retrieve
+     * @return Mixed, sfNavBuilderItem on success, Boolean FALSE on failure
+     */
+    public function getItem($name)
+    {
+        return isset($this->_menu[$name]) ? $this->_menu[$name] : FALSE;
     }
 
     /**
