@@ -172,7 +172,7 @@ class sfNavBuilderItem
      **/
     public function addPersistableRouteParams(Array $params)
     {
-        $this->_persistableRouteParams = array_merge($this->_persistableRouteParams, $param);
+        $this->_persistableRouteParams = array_merge($this->_persistableRouteParams, $params);
         return $this;
     }
 
