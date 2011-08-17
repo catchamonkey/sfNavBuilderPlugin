@@ -84,7 +84,7 @@ class sfNavBuilder
         foreach ($item->getChildren() as $child)
         {
             // the child also needs the request instance
-            $child->setRequest($this->request);
+            $child->setRequest($this->_request);
             $child->setActive($this->isItemActive($child));
         }
         return $this;
