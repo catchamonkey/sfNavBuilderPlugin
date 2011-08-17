@@ -159,7 +159,7 @@ class sfNavBuilderItem
      */
     public function addRouteParams(Array $params)
     {
-        array_merge($this->_routeParams, $params);
+        $this->_routeParams = array_merge($this->_routeParams, $params);
         return $this;
     }
 
@@ -172,7 +172,7 @@ class sfNavBuilderItem
      **/
     public function addPersistableRouteParams(Array $params)
     {
-        array_merge($this->_persistableRouteParams, $param);
+        $this->_persistableRouteParams = array_merge($this->_persistableRouteParams, $param);
         return $this;
     }
 
