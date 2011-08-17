@@ -83,6 +83,8 @@ class sfNavBuilder
         // mark the active state of any children elements
         foreach ($item->getChildren() as $child)
         {
+            // the child also needs the request instance
+            $child->setRequest($this->request);
             $child->setActive($this->isItemActive($child));
         }
         return $this;
