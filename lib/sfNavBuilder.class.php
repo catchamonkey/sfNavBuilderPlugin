@@ -68,12 +68,33 @@ class sfNavBuilder
     }
 
     /**
+     * Sets the currently active user
+     * @param sfUser $u The current user instance
+     * @return sfNavBuilder $this The current sfNavBuilder instance
+     */
+    public function setUser(sfUser $u)
+    {
+        $this->_context->user = $u;
+        return $this;
+    }
+
+    /**
      * Adds an item to the menu
      * @param sfNavBuilderItem $item A single menu item
      * @return sfNavBuilder $this The current sfNavBuilder instance
      */
     public function addItem(sfNavBuilderItem $item)
     {
+        // the item must have one defined credential (at least)
+        foreach ($item->getCredentialRules() as $credential)
+        {
+            // if the permission is now found
+            if ($this->_context->user->hasCredential($credential))
+            {
+                // break out as they only have to have one
+                break;
+            }
+        }
         // pass in the request instance to the item
         $item->setRequest($this->_request);
         // add this item to the menu

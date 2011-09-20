@@ -9,6 +9,7 @@ class sfNavBuilderItem
     private $_displayName;
     private $_url;
     private $_activateWhen;
+    private $_credentialRules;
     private $_isActive;
     private $_children;
     private $_attributes;
@@ -22,6 +23,7 @@ class sfNavBuilderItem
         $this->_displayName             = NULL;
         $this->_url                     = NULL;
         $this->_activateWhen            = array();
+        $this->_credentialRules         = array();
         $this->_isActive                = FALSE;
         $this->_children                = array();
         $this->_attributes              = array();
@@ -69,6 +71,18 @@ class sfNavBuilderItem
     public function addActivateWhen(Array $a)
     {
         $this->_activateWhen[] = $a;
+        return $this;
+    }
+
+    /**
+     * Adds a number of credentials (1 or more), that the current user must
+     * have one of for this item to exist in their menu
+     * @param Array $credentials The credentials to base this items addition on
+     * @return sfNavBuilderItem $this The current sfNavBuilderItem instance
+     */
+    public function addCredentialRules(Array $credentials)
+    {
+        $this->_credentialRules = array_merge($this->_credentialRules, $credentials);
         return $this;
     }
 
@@ -227,6 +241,15 @@ class sfNavBuilderItem
     public function getActivateWhen()
     {
         return $this->_activateWhen;
+    }
+
+    /**
+     * Returns the credential rules for this item
+     * @return void
+     **/
+    public function getCredentialRules()
+    {
+        return $this->_credentialRules;
     }
 
     /**
