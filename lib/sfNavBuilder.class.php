@@ -85,41 +85,27 @@ class sfNavBuilder
      */
     public function addItem(sfNavBuilderItem $item)
     {
-        if (count($item->getCredentialRules()) > 0)
+        // pass in the request instance and context to the item
+        $item->setRequest($this->_request)->setContext($this->_context);
+        // if the item can be added, then add it
+        if ($item->canBeAdded())
         {
-            $hasPermission = FALSE;
-        }
-        else
-        {
-            $hasPermission = TRUE;
-        }
-        // the item must have one defined credential (at least)
-        foreach ($item->getCredentialRules() as $credential)
-        {
-            // if the permission is now found
-            if ($this->_context->user->hasCredential($credential))
+            $this->_menu[$item->getDisplayName()] = $item;
+            // mark the active state of the parent element
+            $item->setActive($this->isItemActive($item));
+            // mark the active state of any children elements
+            foreach ($item->getChildren() as $child)
             {
-                // break out as they only have to have one
-                $hasPermission = TRUE;
-                break;
+                // the child also needs the request and context instances
+                $child->setRequest($this->_request)->setContext($this->_context);
+                $child->setActive($this->isItemActive($child));
+                // if this item should not be part of this users menu instance
+                if (!$child->canBeAdded())
+                {
+                    // remove it
+                    $item->remove($child->getDisplayName());
+                }
             }
-        }
-        if (!$hasPermission)
-        {
-            return $this;
-        }
-        // pass in the request instance to the item
-        $item->setRequest($this->_request);
-        // add this item to the menu
-        $this->_menu[$item->getDisplayName()] = $item;
-        // mark the active state of the parent element
-        $item->setActive($this->isItemActive($item));
-        // mark the active state of any children elements
-        foreach ($item->getChildren() as $child)
-        {
-            // the child also needs the request instance
-            $child->setRequest($this->_request);
-            $child->setActive($this->isItemActive($child));
         }
         return $this;
     }

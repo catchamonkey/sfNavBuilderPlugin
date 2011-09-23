@@ -14,6 +14,7 @@ class sfNavBuilderItem
     private $_children;
     private $_attributes;
     private $_request;
+    private $_context;
     private $_route;
     private $_routeParams;
     private $_persistableRouteParams;
@@ -28,6 +29,7 @@ class sfNavBuilderItem
         $this->_children                = array();
         $this->_attributes              = array();
         $this->_request                 = FALSE;
+        $this->_context                 = FALSE;
         $this->_route                   = FALSE;
         $this->_routeParams             = array();
         $this->_persistableRouteParams  = array();
@@ -110,7 +112,7 @@ class sfNavBuilderItem
      */
     public function addChild(sfNavBuilderItem $i)
     {
-        $this->_children[] = $i;
+        $this->_children[$i->_displayName] = $i;
         return $this;
     }
 
@@ -147,6 +149,17 @@ class sfNavBuilderItem
     public function setRequest(sfWebRequest $r)
     {
         $this->_request = $r;
+        return $this;
+    }
+
+    /**
+     * Sets the context of this menu
+     * @param StdClass $c The Context items defined as a StdClass
+     * @return sfNavBuilderItem $this The current sfNavBuilderItem instance
+     */
+    public function setContext(StdClass $c)
+    {
+        $this->_context = $c;
         return $this;
     }
 
@@ -224,6 +237,15 @@ class sfNavBuilderItem
     }
 
     /**
+     * Removes a child item from the current Item
+     * @param String $name The Display name of the child to remove
+     */
+    public function removeChild($name)
+    {
+        unset($this->_children[$name]);
+    }
+
+    /**
      * Returns the URL of this item, will also run the generation of the URL
      * if _route has been defined
      * @return String _url
@@ -259,6 +281,30 @@ class sfNavBuilderItem
     public function isActive()
     {
         return $this->_isActive;
+    }
+
+    public function canBeAdded()
+    {
+        // be defensive
+        $hasPermission = FALSE;
+        // if no credential based rules are defined
+        if (count($this->_credentialRules) == 0)
+        {
+            // grant permission to this item
+            $hasPermission = TRUE;
+        }
+        // the user must have one of the defined credentials (at least)
+        foreach ($this->_credentialRules as $credential)
+        {
+            // if the permission is now found
+            if ($this->_context->user->hasCredential($credential))
+            {
+                // break out as they only have to have one
+                $hasPermission = TRUE;
+                break;
+            }
+        }
+        return $hasPermission;
     }
 
     /**
