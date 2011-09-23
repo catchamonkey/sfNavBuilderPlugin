@@ -85,6 +85,14 @@ class sfNavBuilder
      */
     public function addItem(sfNavBuilderItem $item)
     {
+        if (count($item->getCredentialRules()) > 0)
+        {
+            $hasPermission = FALSE;
+        }
+        else
+        {
+            $hasPermission = TRUE;
+        }
         // the item must have one defined credential (at least)
         foreach ($item->getCredentialRules() as $credential)
         {
@@ -92,8 +100,13 @@ class sfNavBuilder
             if ($this->_context->user->hasCredential($credential))
             {
                 // break out as they only have to have one
+                $hasPermission = TRUE;
                 break;
             }
+        }
+        if (!$hasPermission)
+        {
+            return $this;
         }
         // pass in the request instance to the item
         $item->setRequest($this->_request);
