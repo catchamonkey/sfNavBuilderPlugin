@@ -168,42 +168,53 @@ class sfNavBuilder
         // look at the activation criteria and see if they are met
         foreach ($item->getActivateWhen() as $activate)
         {
-            // minimum for activation is an array of modules to check
-            if (in_array($this->_context->module, $activate['module']))
-            {
-                // check actions if defined
-                if (isset($activate['action']))
+          if ('module_and_action' === key($activate))
+          {
+                if ($this->_context->module === $activate['module_and_action']['module']
+                    && $this->_context->action === $activate['module_and_action']['action'])
                 {
-                    if (in_array($this->_context->action, $activate['action']))
+                    $ret = TRUE;
+                    break;
+                }
+            } else {
+                // minimum for activation is an array of modules to check
+                if (in_array($this->_context->module, $activate['module']))
+                {
+                    // check actions if defined
+                    if (isset($activate['action']))
                     {
-                        // check params if defined
-                        if (isset($activate['paramName']) && isset($activate['paramVal']))
+                        if (in_array($this->_context->action, $activate['action']))
                         {
-                            if (
-                                in_array(
-                                    $this->_request->getParameter($activate['paramName']), 
-                                    $activate['paramVal']
+                            // check params if defined
+                            if (isset($activate['paramName']) && isset($activate['paramVal']))
+                            {
+                                if (
+                                    in_array(
+                                        $this->_request->getParameter($activate['paramName']),
+                                        $activate['paramVal']
+                                    )
                                 )
-                            )
+                                {
+                                    $ret = TRUE;
+                                    break;
+                                }
+                            }
+                            else
                             {
                                 $ret = TRUE;
                                 break;
                             }
                         }
-                        else
-                        {
-                            $ret = TRUE;
-                            break;
-                        }
                     }
-                }
-                else
-                {
-                    $ret = TRUE;
-                    break;
+                    else
+                    {
+                        $ret = TRUE;
+                        break;
+                    }
                 }
             }
         }
         return $ret;
     }
 }
+
