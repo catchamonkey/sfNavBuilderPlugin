@@ -30,8 +30,15 @@ It supports active states by module, action and param key value matching.
     $home->setDisplayName('Home')
         ->setUrl(url_for('dashboard'))
         ->addActivateWhen(array(
+            // Enable the item in the 'home' module
             'module' => array('home'),
-            'action' => array('index')
+            // Enable the item in any action called 'index'
+            'action' => array('index'),
+            // Enable the item in the action 'someAction' of the module 'someModule'
+            'module_and_action' => array(
+                'module' => 'someModule',
+                'action' => 'someAction'
+            )
         ));
 
     $this->menu = new sfNavBuilder();
@@ -106,3 +113,4 @@ Your rendering class must have a public function called render() and should impl
 interface sfNavBuilderRendererInterface.  
 Take a look at the default rendering class in the plugin (sfNavBuilderRenderer) to see what menu item 
 functions are available to you
+
