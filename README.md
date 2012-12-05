@@ -11,7 +11,7 @@ It supports active states by module, action and param key value matching.
     git clone git://github.com/catchamonkey/sfNavBuilderPlugin.git plugins/sfNavBuilderPlugin
 
 ###Activate the plugin in your config/ProjectConfiguration.class.php
-
+```php
     public function setup()
     {
         $this->enablePlugins(
@@ -19,9 +19,9 @@ It supports active states by module, action and param key value matching.
             'sfNavBuilderPlugin'
         );
     }
-
+```
 ##Simple Example
-
+```php
     // if you are using url_for (as we are here), don't forget to load the helper
     $this->getContext()->getConfiguration()->loadHelpers('Url');
 
@@ -44,12 +44,12 @@ It supports active states by module, action and param key value matching.
     // and in your template you would call
     
     <?php echo $menu->render(); ?>
-
+```
 ##Parent item with a child
 
 We want to activate the parent item when either that is selected, or the child
 item is selected
-
+```php
     $parentItem = new sfNavBuilderItem();
     $parentItem->setDisplayName('Dashboard')
         ->setUrl(url_for('dashboard'))
@@ -57,9 +57,9 @@ item is selected
             'module' => array('home'),
             'action' => array('index', 'about)
         ));
-
+```
 And we activate the level 2 item only when it is selected
-
+```php
     $childItem = new sfNavBuilderItem();
     $childItem->setDisplayName('About Us')
         ->setUrl(url_for('about'))
@@ -68,24 +68,24 @@ And we activate the level 2 item only when it is selected
             'action'        => array('about')
         ))
         ->setParent($parentItem);
-
+```
 You can also define the hierarchy with addChild() on the parent item
-
+```php
     $parentItem->addChild($childItem);
-
+```
 Now build the menu
-
+```php
     $this->menu = new sfNavBuilder();
     $this->menu
         ->setRequest($request)
         ->setModule($this->getContext()->getModuleName())
         ->setAction($this->getContext()->getActionName())
         ->addItem($parentItem);
-
+```
 And finally, call render within your template
-
+```php
     <?php echo $menu->render(); ?>
-    
+```
 ##Custom Rendering class
 
 You can override the class used to render the menu, each menu item has useful
@@ -93,7 +93,7 @@ functions so you can appropriately render your menu.
 
 After creating the items, when you add to the menu instance you set the class you 
 want to be used when rendering.
-
+```php
     $this->menu = new sfNavBuilder();
     $this->menu
         ->setRequest($request)
@@ -101,8 +101,9 @@ want to be used when rendering.
         ->setAction($this->getContext()->getActionName())
         ->addItem($parentItem)
         ->setRenderer('myMenuRenderingClass');
-
+```
 Your rendering class must have a public function called render() and should implement the 
 interface sfNavBuilderRendererInterface.  
+
 Take a look at the default rendering class in the plugin (sfNavBuilderRenderer) to see what menu item 
 functions are available to you
