@@ -98,7 +98,7 @@ class sfNavBuilderItem
         if (!is_bool($b))
         {
             throw new sfPluginException("Active state must be Boolean", 1);
-            
+
         }
         $this->_isActive = $b;
         return $this;
@@ -139,6 +139,24 @@ class sfNavBuilderItem
     {
         $this->_attributes[$name] = $value;
         return $this;
+    }
+
+    /**
+     * Returns the attribute by key if it is set for the current item
+     * @param  String $name attribute key to look for
+     * @param  mixed $default OPTIONAL Value to to return if key not found.
+     *         Default NULL
+     * @return String attribute by key if found, NULL (default) if key not found
+     *         $default if default param provided.
+     */
+    public function getAttribute($name, $default = NULL)
+    {
+        if (isset($this->_attributes[$name]))
+        {
+            return $this->attributes[$name];
+        }
+
+        return $default;
     }
 
     /**
@@ -194,7 +212,7 @@ class sfNavBuilderItem
      * Adds persistable route parameters to any existing on this item
      * The value of these parameters is retrieved from the sfWebRequest instance
      * and he key=value pairs are added to the URL if being generated
-     * @param Array $params An array of parameter names to persist 
+     * @param Array $params An array of parameter names to persist
      * @return sfNavBuilderItem $this The current sfNavBuilderItem instance
      **/
     public function addPersistableRouteParams(Array $params)
