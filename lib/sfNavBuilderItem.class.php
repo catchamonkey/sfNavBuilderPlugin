@@ -153,7 +153,7 @@ class sfNavBuilderItem
     {
         if (isset($this->_attributes[$name]))
         {
-            return $this->attributes[$name];
+            return $this->_attributes[$name];
         }
 
         return $default;
