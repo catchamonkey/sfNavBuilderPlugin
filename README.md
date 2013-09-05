@@ -1,4 +1,5 @@
-#sfNavBuilderPlugin aids the creation of hierarchical menus
+#sfNavBuilderPlugin [![SensioLabsInsight](https://insight.sensiolabs.com/projects/e7234d65-2a2c-4cb1-97e0-df2d94f5cbe3/small.png)](https://insight.sensiolabs.com/projects/e7234d65-2a2c-4cb1-97e0-df2d94f5cbe3)
+##Helps with the creation of hierarchical menus
 
 The sfNavBuilderPlugin is a symfony 1.4 plugin that offers a simple to use interface, 
 and an easily overriden rendering system.  
